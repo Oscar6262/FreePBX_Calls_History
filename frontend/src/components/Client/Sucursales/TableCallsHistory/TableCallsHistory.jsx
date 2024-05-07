@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table, Button, Icon } from 'semantic-ui-react'
 import { map } from 'lodash'
 import './TableCallsHistory.scss'
 
 export function TableCallsHistory(props) {
-  const { id } = props
+  const { calls } = props
 
   return (
     <Table className="table-calls-history-client">
@@ -20,18 +20,13 @@ export function TableCallsHistory(props) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        <Table.Row>
-          <Table.Cell>101</Table.Cell>
-          <Table.Cell>202</Table.Cell>
-          <Table.Cell>22:01:00</Table.Cell>
-          <Table.Cell>22:20:00</Table.Cell>
-          <Table.Cell>19:00</Table.Cell>
-          <Table.Cell>01-06-2024</Table.Cell>
-          <Table.Cell className="status">
-            Atendida
-            <Icon name="check" />
-          </Table.Cell>
-        </Table.Row>
+        {map(calls.users, (call, index) => (
+          <Table.Row key={index}>
+            <Table.Cell>{call.id}</Table.Cell>
+            <Table.Cell>{call.name}</Table.Cell>
+          </Table.Row>
+        ))}
+        {map(calls.users, (call, index) => console.log(call.id))}
       </Table.Body>
     </Table>
   )

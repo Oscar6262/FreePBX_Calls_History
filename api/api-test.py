@@ -1,7 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Habilitar CORS para toda la aplicación
+
 
 # Configuración de la base de datos (user:password@localhost/database)
 MASTER_USER = 'root'
