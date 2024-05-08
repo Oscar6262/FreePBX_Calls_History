@@ -1,0 +1,18 @@
+.basic-modal {
+  border-radius: 15px !important;
+  overflow: hidden; // round corners
+  .header {
+    text-align: center;
+  }
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-height: 400px !important;
+  overflow-y: auto !important;
+  margin-top: 50px;
+  .ui.primary.button {
+    margin-top: 50px;
+  }
+}

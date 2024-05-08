@@ -2,32 +2,89 @@ import React, { useEffect } from 'react'
 import { Table, Button, Icon } from 'semantic-ui-react'
 import { map } from 'lodash'
 import './TableCallsHistory.scss'
+import { CalendarRangeComponent } from '../../main'
 
 export function TableCallsHistory(props) {
-  const { calls } = props
+  const { calls, sucursal, filtroSucursal, filtroResponse } = props
+
+  filtroSucursal === '1'
+    ? console.log('Guasave')
+    : filtroSucursal === '2'
+    ? console.log('Mochis')
+    : filtroSucursal === '3'
+    ? console.log('Culiacan')
+    : null
 
   return (
-    <Table className="table-calls-history-client">
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Ext. Llama</Table.HeaderCell>
-          <Table.HeaderCell>Ext. Recibe</Table.HeaderCell>
-          <Table.HeaderCell>Inicio</Table.HeaderCell>
-          <Table.HeaderCell>Terminacion</Table.HeaderCell>
-          <Table.HeaderCell>Duracion</Table.HeaderCell>
-          <Table.HeaderCell>Fecha</Table.HeaderCell>
-          <Table.HeaderCell>Llamada Atendida</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {map(calls.users, (call, index) => (
-          <Table.Row key={index}>
-            <Table.Cell>{call.id}</Table.Cell>
-            <Table.Cell>{call.name}</Table.Cell>
+    <>
+      {/* <CalendarRangeComponent /> */}
+
+      <Table className="table-calls-history-client">
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>sucursal</Table.HeaderCell>
+            <Table.HeaderCell>calldate</Table.HeaderCell>
+            <Table.HeaderCell>duration</Table.HeaderCell>
+
+            <Table.HeaderCell>disposition</Table.HeaderCell>
           </Table.Row>
-        ))}
-        {map(calls.users, (call, index) => console.log(call.id))}
-      </Table.Body>
-    </Table>
+        </Table.Header>
+        <Table.Body>
+          <Table.HeaderCell>Text</Table.HeaderCell>
+          <Table.HeaderCell>T</Table.HeaderCell>
+
+          {filtroResponse === null && filtroSucursal === null
+            ? // Mostrar todos los datos
+              calls.cdr_records.map((call, index) => (
+                <Table.Row key={index}>
+                  <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
+                  <Table.HeaderCell>{call.duration}</Table.HeaderCell>
+                  <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
+                  <Table.HeaderCell>{call.src}</Table.HeaderCell>
+                </Table.Row>
+              ))
+            : filtroResponse === null && filtroSucursal !== null
+            ? // Mostrar solo los datos donde filtroSucursal sea igual al primer número de src
+              calls.cdr_records
+                .filter((call) => call.src.charAt(0) === filtroSucursal)
+                .map((call, index) => (
+                  <Table.Row key={index}>
+                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
+                  </Table.Row>
+                ))
+            : filtroResponse !== null && filtroSucursal === null
+            ? // Mostrar solo los datos donde filtroResponse sea igual a call.disposition
+              calls.cdr_records
+                .filter((call) => call.disposition === filtroResponse)
+                .map((call, index) => (
+                  <Table.Row key={index}>
+                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
+                  </Table.Row>
+                ))
+            : // Mostrar solo los datos que coincidan con filtroResponse y filtroSucursal
+              calls.cdr_records
+                .filter(
+                  (call) =>
+                    call.disposition === filtroResponse &&
+                    call.src.charAt(0) === filtroSucursal
+                )
+                .map((call, index) => (
+                  <Table.Row key={index}>
+                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
+                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
+                  </Table.Row>
+                ))}
+          {map(calls.users, (call, index) => console.log(call.id))}
+        </Table.Body>
+      </Table>
+    </>
   )
 }

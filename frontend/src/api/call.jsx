@@ -4,7 +4,7 @@ import { BASE_API } from '../utils/constants'
 
 export async function getCallsApi(token) {
   try {
-    const url = `${BASE_API}/users`
+    const url = `${BASE_API}/cdr`
     const params = {
       headers: {
         Authorization: `Bearer ${token}`,
