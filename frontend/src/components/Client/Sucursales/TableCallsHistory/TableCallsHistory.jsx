@@ -5,7 +5,7 @@ import './TableCallsHistory.scss'
 import { CalendarRangeComponent } from '../../main'
 
 export function TableCallsHistory(props) {
-  const { calls, sucursal, filtroSucursal, filtroResponse } = props
+  const { calls, filtroSucursal, filtroResponse } = props
 
   filtroSucursal === '1'
     ? console.log('Guasave')
@@ -22,16 +22,15 @@ export function TableCallsHistory(props) {
       <Table className="table-calls-history-client">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>sucursal</Table.HeaderCell>
             <Table.HeaderCell>calldate</Table.HeaderCell>
             <Table.HeaderCell>duration</Table.HeaderCell>
-
             <Table.HeaderCell>disposition</Table.HeaderCell>
+            <Table.HeaderCell>src</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          <Table.HeaderCell>Text</Table.HeaderCell>
-          <Table.HeaderCell>T</Table.HeaderCell>
+          {/* <Table.HeaderCell>Text</Table.HeaderCell>
+          <Table.HeaderCell>T</Table.HeaderCell> */}
 
           {filtroResponse === null && filtroSucursal === null
             ? // Mostrar todos los datos
