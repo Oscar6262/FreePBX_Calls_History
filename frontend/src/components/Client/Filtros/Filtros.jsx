@@ -13,8 +13,8 @@ export function Filtros(props) {
   ]
   const optionsResponse = [
     { key: 'default', value: null, text: 'Default' },
-    { key: 'NOANSWERED', value: 'NOANSWERED', text: 'No Respondio' },
-    { key: 'ANSWERED', value: 'ANSWERED', text: 'Respondio' },
+    { key: 'NO ANSWER', value: 'NO ANSWER', text: 'NO ANSWER' },
+    { key: 'ANSWERED', value: 'ANSWERED', text: 'ANSWERED' },
   ]
 
   // Manejar el cambio de valor del Select
@@ -24,7 +24,7 @@ export function Filtros(props) {
   }
 
   const handleChangeResponse = (e, { value }) => {
-    // console.log(value + 'AAAA')
+    console.log(value)
     setFiltroResponse(value)
   }
 
