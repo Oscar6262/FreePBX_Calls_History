@@ -18,8 +18,10 @@ export function Sucursales() {
   const [refetch, setRefetch] = useState(false)
   const [filtroSucursal, setFiltroSucursal] = useState(null)
   const [filtroResponse, setFiltroResponse] = useState(null)
-  const [date, setDate] = useState(null)
-  const [dateTwo, setDateTwo] = useState(null)
+  const [filtroExtencionDst, setFiltroExtencionDst] = useState(null)
+  const [filtroExtencionSrc, setFiltroExtencionSrc] = useState(null)
+  const [filtroDateOne, setFiltroDateOne] = useState(null)
+  const [filtroDateTwo, setFiltroDateTwo] = useState(null)
 
   useEffect(() => {
     getCalls()
@@ -36,8 +38,10 @@ export function Sucursales() {
         onRefetch={onRefetch}
         setFiltroSucursal={setFiltroSucursal}
         setFiltroResponse={setFiltroResponse}
-        setDate={setDate}
-        setDateTwo={setDate}
+        setFiltroExtencionDst={setFiltroExtencionDst}
+        setFiltroExtencionSrc={setFiltroExtencionSrc}
+        setFiltroDateOne={setFiltroDateOne}
+        setFiltroDateTwo={setFiltroDateTwo}
       />
     )
     openCloseModal()
@@ -58,9 +62,12 @@ export function Sucursales() {
       ) : (
         <TableCallsHistory
           calls={calls}
-          sucursal={'Mochis'}
           filtroSucursal={filtroSucursal}
           filtroResponse={filtroResponse}
+          filtroExtencionDst={filtroExtencionDst}
+          filtroExtencionSrc={filtroExtencionSrc}
+          filtroDateOne={filtroDateOne}
+          filtroDateTwo={filtroDateTwo}
         />
       )}
       <BasicModal
