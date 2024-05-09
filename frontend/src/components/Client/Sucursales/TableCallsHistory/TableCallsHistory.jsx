@@ -1,20 +1,33 @@
-import React, { useEffect } from 'react'
-import { Table, Button, Icon } from 'semantic-ui-react'
+import React, { useEffect, useState } from 'react'
+import {
+  TableRow,
+  TableHeaderCell,
+  TableHeader,
+  TableFooter,
+  TableCell,
+  TableBody,
+  MenuItem,
+  Icon,
+  Label,
+  Menu,
+  Table,
+  Button,
+} from 'semantic-ui-react'
 import { map } from 'lodash'
 import './TableCallsHistory.scss'
-import { CalendarRangeComponent } from '../../main'
 
 export function TableCallsHistory(props) {
   const {
     filtroSucursal,
     filtroResponse,
-    // filtroSrc,
-    // filtroDst,
     filtroDateOne,
     filtroDateTwo,
     filtroExtencionSrc,
     filtroExtencionDst,
   } = props
+
+  const [currentPage, setCurrentPage] = useState(1) // Página actual
+  const [itemsPerPage, setItemsPerPage] = useState(10) // Número de elementos por página
 
   const calls = {
     cdr_records: [
@@ -1485,25 +1498,38 @@ export function TableCallsHistory(props) {
   //   : filtroSucursal === '3'
   //   ? console.log('Culiacan')
   //   : null
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = calls.cdr_records.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  )
+
+  const nextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1)
+  }
+
+  const prevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1)
+  }
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
 
   return (
     <>
-      {/* <CalendarRangeComponent /> */}
-
-      <Table className="table-calls-history-client">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>calldate</Table.HeaderCell>
-            <Table.HeaderCell>src</Table.HeaderCell>
-            <Table.HeaderCell>dst</Table.HeaderCell>
-            <Table.HeaderCell>duration</Table.HeaderCell>
-            <Table.HeaderCell>disposition</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {/* <Table.HeaderCell>Text</Table.HeaderCell>
-          <Table.HeaderCell>T</Table.HeaderCell> */}
-
+      <Table celled className="table-calls-history-client">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Fecha</TableHeaderCell>
+            <TableHeaderCell>Origen</TableHeaderCell>
+            <TableHeaderCell>Destino</TableHeaderCell>
+            <TableHeaderCell>Duracion</TableHeaderCell>
+            <TableHeaderCell>Respuesta</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {filtroResponse === null &&
           filtroSucursal === null &&
           filtroExtencionSrc === null &&
@@ -1511,102 +1537,135 @@ export function TableCallsHistory(props) {
           filtroDateOne === null &&
           filtroDateTwo === null
             ? // Mostrar todos los datos
-              calls.cdr_records.map((call, index) => (
-                <Table.Row key={index}>
-                  <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                  <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                  <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                  <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                  <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                </Table.Row>
+              currentItems.map((call, index) => (
+                <TableRow key={index}>
+                  <TableCell>{call.calldate}</TableCell>
+                  <TableCell>{call.src}</TableCell>
+                  <TableCell>{call.dst}</TableCell>
+                  <TableCell>{call.duration}</TableCell>
+                  <TableCell>{call.disposition}</TableCell>
+                </TableRow>
               ))
             : filtroExtencionSrc !== null && filtroExtencionDst === null
             ? // Mostrar solo los datos sean igual a la extencion src
-              calls.cdr_records
+              currentItems
                 .filter((call) => call.src === filtroExtencionSrc)
                 .map((call, index) => (
-                  <Table.Row key={index}>
-                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                  </Table.Row>
+                  <TableRow key={index}>
+                    <TableCell>{call.calldate}</TableCell>
+                    <TableCell>{call.src}</TableCell>
+                    <TableCell>{call.dst}</TableCell>
+                    <TableCell>{call.duration}</TableCell>
+                    <TableCell>{call.disposition}</TableCell>
+                  </TableRow>
                 ))
             : filtroExtencionSrc === null && filtroExtencionDst !== null
             ? // Mostrar solo los datos sean igual a la extencion dst
-              calls.cdr_records
+              currentItems
                 .filter((call) => call.src === filtroExtencionDst)
                 .map((call, index) => (
-                  <Table.Row key={index}>
-                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                  </Table.Row>
+                  <TableRow key={index}>
+                    <TableCell>{call.calldate}</TableCell>
+                    <TableCell>{call.src}</TableCell>
+                    <TableCell>{call.dst}</TableCell>
+                    <TableCell>{call.duration}</TableCell>
+                    <TableCell>{call.disposition}</TableCell>
+                  </TableRow>
                 ))
             : filtroExtencionSrc !== null && filtroExtencionDst !== null
             ? // Mostrar solo los datos sean iguales a las extenciones
-              calls.cdr_records
+              currentItems
                 .filter(
                   (call) =>
                     call.src === filtroExtencionSrc &&
                     call.dst === filtroExtencionDst
                 )
                 .map((call, index) => (
-                  <Table.Row key={index}>
-                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                  </Table.Row>
+                  <TableRow key={index}>
+                    <TableCell>{call.calldate}</TableCell>
+                    <TableCell>{call.src}</TableCell>
+                    <TableCell>{call.dst}</TableCell>
+                    <TableCell>{call.duration}</TableCell>
+                    <TableCell>{call.disposition}</TableCell>
+                  </TableRow>
                 ))
             : filtroResponse === null && filtroSucursal !== null
             ? // Mostrar solo los datos donde filtroSucursal sea igual al primer número de src
-              calls.cdr_records
+              currentItems
                 .filter((call) => call.src.charAt(0) === filtroSucursal)
                 .map((call, index) => (
-                  <Table.Row key={index}>
-                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                  </Table.Row>
+                  <TableRow key={index}>
+                    <TableCell>{call.calldate}</TableCell>
+                    <TableCell>{call.src}</TableCell>
+                    <TableCell>{call.dst}</TableCell>
+                    <TableCell>{call.duration}</TableCell>
+                    <TableCell>{call.disposition}</TableCell>
+                  </TableRow>
                 ))
             : filtroResponse !== null && filtroSucursal === null
             ? // Mostrar solo los datos donde filtroResponse sea igual a call.disposition
-              calls.cdr_records
+              currentItems
                 .filter((call) => call.disposition === filtroResponse)
                 .map((call, index) => (
-                  <Table.Row key={index}>
-                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                  </Table.Row>
+                  <TableRow key={index}>
+                    <TableCell>{call.calldate}</TableCell>
+                    <TableCell>{call.src}</TableCell>
+                    <TableCell>{call.dst}</TableCell>
+                    <TableCell>{call.duration}</TableCell>
+                    <TableCell>{call.disposition}</TableCell>
+                  </TableRow>
                 ))
             : // Mostrar solo los datos que coincidan con filtroResponse y filtroSucursal
-              calls.cdr_records
+              currentItems
                 .filter(
                   (call) =>
                     call.disposition === filtroResponse &&
                     call.src.charAt(0) === filtroSucursal
                 )
                 .map((call, index) => (
-                  <Table.Row key={index}>
-                    <Table.HeaderCell>{call.calldate}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.src}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.dst}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.duration}</Table.HeaderCell>
-                    <Table.HeaderCell>{call.disposition}</Table.HeaderCell>
-                  </Table.Row>
+                  <TableRow key={index}>
+                    <TableCell>{call.calldate}</TableCell>
+                    <TableCell>{call.src}</TableCell>
+                    <TableCell>{call.dst}</TableCell>
+                    <TableCell>{call.duration}</TableCell>
+                    <TableCell>{call.disposition}</TableCell>
+                  </TableRow>
                 ))}
-          {/* {map(calls.users, (call, index) => console.log(call.id))} */}
-        </Table.Body>
+        </TableBody>
+
+        <TableFooter>
+          <TableRow>
+            <TableHeaderCell colSpan="1">
+              <Menu floated="left" pagination>
+                <TableCell>Pagina Actual</TableCell>
+                <MenuItem as="a">{currentPage}</MenuItem>
+              </Menu>
+            </TableHeaderCell>
+            <TableHeaderCell colSpan="4">
+              <Menu floated="right" pagination>
+                <MenuItem as="a" icon onClick={prevPage}>
+                  <Icon name="chevron left" />
+                </MenuItem>
+                <MenuItem as="a" onClick={() => goToPage(1)}>
+                  1
+                </MenuItem>
+                <MenuItem as="a" onClick={() => goToPage(2)}>
+                  2
+                </MenuItem>
+                <MenuItem as="a" onClick={() => goToPage(3)}>
+                  3
+                </MenuItem>
+                <MenuItem as="a" onClick={() => goToPage(4)}>
+                  4
+                </MenuItem>
+
+                <MenuItem as="a" icon onClick={nextPage}>
+                  <Icon name="chevron right" />
+                </MenuItem>
+              </Menu>
+            </TableHeaderCell>
+          </TableRow>
+        </TableFooter>
       </Table>
     </>
   )

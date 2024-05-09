@@ -1,7 +1,6 @@
 import React from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link, useLocation, Navigate } from 'react-router-dom'
-// import {useAuth} from '../../hooks/main.jsx'
 import './SideMenu.scss'
 
 export function SideMenu(props) {
@@ -33,33 +32,6 @@ function MenuLeft(props) {
       >
         <Icon name="list" />
         Sucursales
-      </Menu.Item>
-
-      <Menu.Item
-        as={Link}
-        to={'/sucursales/mochis'}
-        active={pathname === '/mochis'}
-      >
-        <Icon name="phone" />
-        Mochis
-      </Menu.Item>
-
-      <Menu.Item
-        as={Link}
-        to={'/sucursales/guasave'}
-        active={pathname === '/sucursales/guasave'}
-      >
-        <Icon name="phone" />
-        Guasave
-      </Menu.Item>
-
-      <Menu.Item
-        as={Link}
-        to={'/sucursales/culiacan'}
-        active={pathname === '/sucursales/culiacan'}
-      >
-        <Icon name="phone" />
-        Culiacan
       </Menu.Item>
     </Menu>
   )
