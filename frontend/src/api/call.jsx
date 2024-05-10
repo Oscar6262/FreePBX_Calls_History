@@ -1,19 +1,20 @@
 // import { method } from 'lodash'
-import { json } from 'react-router-dom'
-import { BASE_API } from '../utils/constants'
+import { BASE_API } from "../utils/constants";
 
-export async function getCallsApi(token) {
+export async function getCallsApi(form) {
   try {
-    const url = `${BASE_API}/cdr`
+    const url = `${BASE_API}/calls_d`;
     const params = {
+      method: "POST",
+      body: JSON.stringify(form),
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    }
-    const response = await fetch(url, params)
-    const result = await response.json()
-    return result
+    };
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
