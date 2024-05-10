@@ -1,5 +1,3 @@
 export * from './Home'
-export * from './Mochis'
-export * from './Culiacan'
-export * from './Guasave'
+
 export * from './Sucursales'
