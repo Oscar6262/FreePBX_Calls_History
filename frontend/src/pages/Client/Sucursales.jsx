@@ -88,6 +88,7 @@ export function Sucursales() {
 
   return (
     <>
+    <br></br>
       <div>
         <div>
           <h3>Extensiones</h3>
@@ -157,4 +158,3 @@ export function Sucursales() {
       )}
     </>
   );}
-  
