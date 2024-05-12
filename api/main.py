@@ -19,5 +19,5 @@ def llamadas_distribuidas():
 
 CORS(app)
 if __name__ == "__main__":
-    # Ejecutamos la aplicación en el puerto 5000
+    # Ejecutamos la aplicación en el puerto 5000id
     app.run(debug=True)
